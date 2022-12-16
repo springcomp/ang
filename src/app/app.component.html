@@ -16,8 +16,13 @@
 
 <h1>Usage in Form</h1>
 
-<form [formGroup]="form" >
+<form [formGroup]="form">
   <app-custom-input formControlName="myFormControl"></app-custom-input>
+  <mat-form-field>
+    <my-tel-input placeholder="Phone number" required></my-tel-input>
+    <mat-icon matPrefix>phone</mat-icon>
+    <mat-hint>Include area code</mat-hint>
+  </mat-form-field>
 </form>
 <h2>Variable in app.component</h2>
 {{form.get('myFormControl')?.value}}

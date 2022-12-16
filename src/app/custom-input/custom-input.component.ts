@@ -1,8 +1,14 @@
-import {Component, OnInit, forwardRef} from '@angular/core';
-import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR} from '@angular/forms';
-
+import { Component, OnInit, forwardRef } from '@angular/core';
+import {
+  ControlValueAccessor,
+  FormControl,
+  FormsModule,
+  NG_VALUE_ACCESSOR,
+  ReactiveFormsModule,
+} from '@angular/forms';
 
 @Component({
+  standalone: true,
   selector: 'app-custom-input',
   templateUrl: './custom-input.component.html',
   styleUrls: ['./custom-input.component.scss'],
@@ -12,16 +18,19 @@ import {ControlValueAccessor, FormControl, NG_VALUE_ACCESSOR} from '@angular/for
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(() => CustomInputComponent),
-      multi: true
-    }
+      multi: true,
+    },
+  ],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 // Step 2: Add "implements ControlValueAccessor"
 export class CustomInputComponent implements ControlValueAccessor {
-
   // Step 3: Copy paste this stuff here
-  onChange: any = () => {}
-  onTouch: any = () => {}
+  onChange: any = () => {};
+  onTouch: any = () => {};
   registerOnChange(fn: any): void {
     this.onChange = fn;
   }
@@ -39,5 +48,4 @@ export class CustomInputComponent implements ControlValueAccessor {
   // in this simple case, we've handled all of that in the .html
   // a) we've bound to the local variable with ngModel
   // b) we emit to the ouside by calling onChange on ngModelChange
-
 }
