@@ -1,28 +1,18 @@
-<h1>Usage with NgModel</h1>
-
-<app-custom-input [(ngModel)]="inputOne"></app-custom-input>
-<h2>Variable in app.component</h2>
-{{inputOne}}
-
-<hr>
-
-<h1>Usage with Form Control</h1>
-<app-custom-input [formControl]="inputTwo"></app-custom-input>
-
-<h2>Variable in app.component</h2>
-{{inputTwo.value}}, control touched: {{inputTwo.touched}}
-
-<hr>
 
 <h1>Usage in Form</h1>
 
 <form [formGroup]="form">
   <app-custom-input formControlName="myFormControl"></app-custom-input>
   <mat-form-field>
-    <my-tel-input placeholder="Phone number" required></my-tel-input>
+    <my-tel-input formControlName="myPhone" placeholder="Phone number" required></my-tel-input>
     <mat-icon matPrefix>phone</mat-icon>
     <mat-hint>Include area code</mat-hint>
   </mat-form-field>
 </form>
+
 <h2>Variable in app.component</h2>
+
+<p>
 {{form.get('myFormControl')?.value}}
+<p>
+{{form.get('myPhone')?.value.toString()}}

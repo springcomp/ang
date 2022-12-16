@@ -1,7 +1,11 @@
 <div [formGroup]="parts">
-  <input class="area" formControlName="area" size="3" [disabled]="disabled">
+  <input class="area" formControlName="area" size="3" [disabled]="disabled" (ngModelChange)="propagateChanges($event)">
   <span>&ndash;</span>
-  <input class="exchange" formControlName="exchange" size="3" [disabled]="disabled">
+  <input class="exchange" formControlName="exchange" size="3" [disabled]="disabled" (ngModelChange)="propagateChanges($event)">
   <span>&ndash;</span>
-  <input class="subscriber" formControlName="subscriber" size="4" [disabled]="disabled">
+  <input class="subscriber" formControlName="subscriber" size="4" [disabled]="disabled"
+    (ngModelChange)="propagateChanges($event)">
+</div>
+<div>
+  <input readonly [value]="placeholder">
 </div>

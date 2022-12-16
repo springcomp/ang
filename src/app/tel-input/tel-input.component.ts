@@ -1,9 +1,24 @@
-import { Component, ElementRef, HostBinding, Input } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, NgControl, ReactiveFormsModule } from '@angular/forms';
+import {
+  Component,
+  ElementRef,
+  forwardRef,
+  HostBinding,
+  Input,
+  OnInit,
+} from '@angular/core';
+import {
+  ControlValueAccessor,
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  NgControl,
+  NG_VALUE_ACCESSOR,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { Subject } from 'rxjs';
-import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 
 export class MyTel {
   constructor(
@@ -11,6 +26,10 @@ export class MyTel {
     public exchange: string,
     public subscriber: string
   ) {}
+
+  toString(): string {
+    return `(${this.area}) ${this.exchange}-${this.subscriber}`;
+  }
 }
 
 @Component({
@@ -18,17 +37,23 @@ export class MyTel {
   selector: 'my-tel-input',
   templateUrl: './tel-input.component.html',
   styleUrls: ['./tel-input.component.scss'],
-  providers: [{ provide: MatFormFieldControl, useExisting: MyTelInput }],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => MyTelInput),
+      multi: true,
+    },
+    { provide: MatFormFieldControl, useExisting: MyTelInput },
+  ],
   host: {
     '[id]': 'id',
     '[attr.aria-describedby]': 'describedBy',
   },
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-  ]
+  imports: [FormsModule, ReactiveFormsModule],
 })
-export class MyTelInput {
+export class MyTelInput
+  implements OnInit, ControlValueAccessor, MatFormFieldControl<MyTel>
+{
   parts: FormGroup;
 
   @Input()
@@ -50,7 +75,7 @@ export class MyTelInput {
       exchange: tel.exchange,
       subscriber: tel.subscriber,
     });
-    this.stateChanges.next();
+    this.onPropagateChanges();
   }
 
   constructor(
@@ -65,9 +90,24 @@ export class MyTelInput {
     });
     fm.monitor(elRef.nativeElement, true).subscribe((origin) => {
       this.focused = !!origin;
-      this.stateChanges.next();
+      this.onPropagateChanges();
     });
   }
+
+  onChange: any = () => {};
+  onTouch: any = () => {};
+  registerOnChange(fn: any): void {
+    this.onChange = fn;
+  }
+  registerOnTouched(fn: any): void {
+    this.onTouch = fn;
+  }
+  writeValue(obj: MyTel): void {
+    this.value = obj;
+  }
+
+  ngOnInit(): void {}
+
   stateChanges = new Subject<void>();
 
   static nextId = 0;
@@ -79,9 +119,9 @@ export class MyTelInput {
   }
   set placeholder(plh) {
     this._placeholder = plh;
-    this.stateChanges.next();
+    this.onPropagateChanges();
   }
-  private _placeholder?: string;
+  private _placeholder: string = '';
   ngControl: NgControl | null = null;
   focused = false;
   get empty() {
@@ -98,7 +138,7 @@ export class MyTelInput {
   }
   set required(req) {
     this._required = coerceBooleanProperty(req);
-    this.stateChanges.next();
+    this.onPropagateChanges();
   }
   private _required = false;
   @Input()
@@ -107,7 +147,6 @@ export class MyTelInput {
   }
   set disabled(dis) {
     this._disabled = coerceBooleanProperty(dis);
-    this.stateChanges.next();
   }
   private _disabled = false;
   errorState = false;
@@ -117,11 +156,20 @@ export class MyTelInput {
   setDescribedByIds(ids: string[]) {
     this.describedBy = ids.join(' ');
   }
-  onContainerClick(event: MouseEvent) {
+  onContainerClick(event: MouseEvent): void {
     if ((event.target as Element).tagName.toLowerCase() != 'input') {
       this.elRef.nativeElement.querySelector('input').focus();
     }
   }
+
+  propagateChanges(event: Event): void {
+    this.onPropagateChanges();
+  }
+  onPropagateChanges(): void{
+    this.onChange(this.value);
+    this.stateChanges.next();
+  }
+
   ngOnDestroy() {
     this.stateChanges.complete();
     this.fm.stopMonitoring(this.elRef.nativeElement);
