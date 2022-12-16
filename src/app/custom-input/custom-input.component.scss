@@ -1,15 +1,15 @@
-$color: yellow;
+$color: pink;
 :host {
   display: block;
   background: $color;
   padding: 10px;
   position: relative;
   &:before {
-    content: 'app.component';
+    content: 'custom-input.component';
     position: absolute;
     top: -5px;
     right: -5px;
-    background: darken($color, 10%);
+    background: darken($color, 20%);
     padding: 10px;
     font-size: 10px;
     font-family: monospace;
