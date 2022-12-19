@@ -12,5 +12,6 @@
 
 <p>
 {{form.get('myFormControl')?.value}}
-<p>
-{{form.get('phone')?.value?.toString()}}
+
+<h3>Markdown</h3>
+<p [innerHTML]="renderMarkdown()"></p>

@@ -7,6 +7,7 @@ import {
 } from '@fortawesome/angular-fontawesome';
 
 import { fas } from '@fortawesome/free-solid-svg-icons';
+import { MarkdownModule, MarkdownService } from 'ngx-markdown';
 import { CustomInputComponent } from './custom-input/custom-input.component';
 import { MyTel, MyTelInput } from './tel-input/tel-input.component';
 
@@ -15,22 +16,22 @@ import { MyTel, MyTelInput } from './tel-input/tel-input.component';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: [ './app.component.scss' ],
+  providers: [MarkdownService],
   imports: [
     CustomInputComponent,
     FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
     MyTelInput,
+    MarkdownModule,
   ]
 })
 export class AppComponent  {
-  inputOne = 'initial input one';
-  inputTwo = new FormControl<string>('initial input two');
-
   form : FormGroup<FormData>;
 
   constructor(
     private formBuilder: FormBuilder,
+    private markdownService: MarkdownService,
     library: FaIconLibrary
     ) {
     library.addIconPacks(fas);
@@ -44,6 +45,12 @@ export class AppComponent  {
   public getValue(event: UIEvent): void {
     const phone = this.form.value.phone?.toString();
     console.log(phone);
+  }
+
+  public renderMarkdown(): string {
+    const text = this.form.get('phone')?.value?.toString() ?? '';
+    const html = this.markdownService.parse(text);
+    return html;
   }
 }
 

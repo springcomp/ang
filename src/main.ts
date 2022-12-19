@@ -1,8 +1,13 @@
-import { ImportedNgModuleProviders, importProvidersFrom, Provider } from '@angular/core';
+import {
+  ImportedNgModuleProviders,
+  importProvidersFrom,
+  Provider,
+} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { bootstrapApplication } from '@angular/platform-browser';
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MarkdownModule, MarkdownService } from 'ngx-markdown';
 
 import { AppComponent } from './app/app.component';
 
@@ -12,9 +17,7 @@ export function getBaseUrl() {
 
 const providers: Array<Provider | ImportedNgModuleProviders> = [
   { provide: 'BASE_URL', useFactory: getBaseUrl, deps: [] },
-  importProvidersFrom([
-    BrowserAnimationsModule,
-  ]),
+  importProvidersFrom([BrowserAnimationsModule, MarkdownModule.forRoot()]),
   FormsModule,
   ReactiveFormsModule,
 ];
