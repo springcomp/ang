@@ -1,12 +1,11 @@
 <div [formGroup]="parts">
   <markdown-toolbar for="textarea_id">
-    <md-bold>
-      <button mat-icon-button aria-label="Bold">
+    <md-bold> <button mat-icon-button aria-label="Bold">
         <fa-icon [icon]="['fas', 'copy']"></fa-icon>
-      </button>
-    </md-bold>
-
-    <md-header></md-header>
+      </button> </md-bold>
+    <md-header><button mat-icon-button aria-label="Header">
+        <fa-icon [icon]="['fas', 'copy']"></fa-icon>
+      </button></md-header>
     <md-italic><button mat-icon-button aria-label="Bold">
         <fa-icon [icon]="['fas', 'copy']"></fa-icon>
       </button></md-italic>
@@ -38,6 +37,7 @@
         <fa-icon [icon]="['fas', 'copy']"></fa-icon>
       </button></md-ref>
   </markdown-toolbar>
+  <br><!-- TODO: <div>…</div> -->
   <textarea id="textarea_id" class="area" formControlName="area" size="3" [disabled]="disabled"
     (ngModelChange)="propagateChanges($event)"></textarea>
 </div>
