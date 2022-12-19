@@ -1,12 +1,10 @@
 
 <h1>Usage in Form</h1>
 
-<form [formGroup]="form">
+<form mat-dialog-content [formGroup]="form">
   <app-custom-input formControlName="myFormControl"></app-custom-input>
   <mat-form-field>
-    <my-tel-input formControlName="myPhone" placeholder="Phone number" required></my-tel-input>
-    <mat-icon matPrefix>phone</mat-icon>
-    <mat-hint>Include area code</mat-hint>
+    <my-tel-input formControlName="phone" placeholder="Phone number" required></my-tel-input>
   </mat-form-field>
 </form>
 
@@ -15,4 +13,4 @@
 <p>
 {{form.get('myFormControl')?.value}}
 <p>
-{{form.get('myPhone')?.value.toString()}}
+{{form.get('phone')?.value?.toString()}}

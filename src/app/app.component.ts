@@ -1,6 +1,12 @@
 import { Component, VERSION } from '@angular/core';
 import {FormControl, FormBuilder, FormsModule, ReactiveFormsModule, Validators, FormGroup} from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import {
+  FaIconLibrary,
+  FontAwesomeModule,
+} from '@fortawesome/angular-fontawesome';
+
+import { fas } from '@fortawesome/free-solid-svg-icons';
 import { CustomInputComponent } from './custom-input/custom-input.component';
 import { MyTel, MyTelInput } from './tel-input/tel-input.component';
 
@@ -23,20 +29,25 @@ export class AppComponent  {
 
   form : FormGroup<FormData>;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder,
+    library: FaIconLibrary
+    ) {
+    library.addIconPacks(fas);
     this.form = this.formBuilder.group<FormData>({
       myFormControl: new FormControl('initial input three', { validators: Validators.required, nonNullable: true }),
-      myPhone: new FormControl(new MyTel('001', '333', '4444')),
+      phone: new FormControl(new MyTel('001')),
     });
+
   }
 
   public getValue(event: UIEvent): void {
-    const phone = this.form.value.myPhone?.toString();
+    const phone = this.form.value.phone?.toString();
     console.log(phone);
   }
 }
 
 export class FormData{
   myFormControl!: FormControl<string | null>;
-  myPhone!: FormControl<MyTel | null>;
+  phone!: FormControl<MyTel | null>;
 }

@@ -1,5 +1,6 @@
 import {
   Component,
+  CUSTOM_ELEMENTS_SCHEMA,
   ElementRef,
   forwardRef,
   HostBinding,
@@ -19,16 +20,14 @@ import { FocusMonitor } from '@angular/cdk/a11y';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { Subject } from 'rxjs';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
+import '@github/markdown-toolbar-element';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 export class MyTel {
-  constructor(
-    public area: string,
-    public exchange: string,
-    public subscriber: string
-  ) {}
+  constructor(public area: string) {}
 
   toString(): string {
-    return `(${this.area}) ${this.exchange}-${this.subscriber}`;
+    return this.area;
   }
 }
 
@@ -37,6 +36,7 @@ export class MyTel {
   selector: 'my-tel-input',
   templateUrl: './tel-input.component.html',
   styleUrls: ['./tel-input.component.scss'],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -49,7 +49,11 @@ export class MyTel {
     '[id]': 'id',
     '[attr.aria-describedby]': 'describedBy',
   },
-  imports: [FormsModule, ReactiveFormsModule],
+  imports: [
+    FormsModule,
+    ReactiveFormsModule,
+    FontAwesomeModule,
+  ],
 })
 export class MyTelInput
   implements OnInit, ControlValueAccessor, MatFormFieldControl<MyTel>
@@ -59,21 +63,12 @@ export class MyTelInput
   @Input()
   get value(): MyTel | null {
     let n = this.parts.value;
-    if (
-      n.area.length == 3 &&
-      n.exchange.length == 3 &&
-      n.subscriber.length == 4
-    ) {
-      return new MyTel(n.area, n.exchange, n.subscriber);
-    }
-    return null;
+    return new MyTel(n.area);
   }
   set value(tel: MyTel | null) {
-    tel = tel || new MyTel('', '', '');
+    tel = tel || new MyTel('');
     this.parts.setValue({
       area: tel.area,
-      exchange: tel.exchange,
-      subscriber: tel.subscriber,
     });
     this.onPropagateChanges();
   }
@@ -85,8 +80,6 @@ export class MyTelInput
   ) {
     this.parts = fb.group({
       area: '',
-      exchange: '',
-      subscriber: '',
     });
     fm.monitor(elRef.nativeElement, true).subscribe((origin) => {
       this.focused = !!origin;
@@ -157,15 +150,15 @@ export class MyTelInput
     this.describedBy = ids.join(' ');
   }
   onContainerClick(event: MouseEvent): void {
-    if ((event.target as Element).tagName.toLowerCase() != 'input') {
-      this.elRef.nativeElement.querySelector('input').focus();
+    if ((event.target as Element).tagName.toLowerCase() != 'textarea') {
+      this.elRef.nativeElement.querySelector('textarea').focus();
     }
   }
 
   propagateChanges(event: Event): void {
     this.onPropagateChanges();
   }
-  onPropagateChanges(): void{
+  onPropagateChanges(): void {
     this.onChange(this.value);
     this.stateChanges.next();
   }
