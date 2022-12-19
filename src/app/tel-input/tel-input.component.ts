@@ -25,7 +25,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import * as EasyMDE from 'easymde';
 
 export class MyTel {
-  constructor(public area: string) {}
+  constructor(public area: string,
+    public preview: string = '') { }
 
   toString(): string {
     return this.area;
@@ -68,6 +69,7 @@ export class MyTelInput
     tel = tel || new MyTel('');
     this.parts.setValue({
       area: tel.area,
+      preview: '',
     });
     this.onPropagateChanges();
   }
@@ -79,15 +81,16 @@ export class MyTelInput
   ) {
     this.parts = fb.group({
       area: '',
+      preview: '',
     });
     fm.monitor(element.nativeElement, true).subscribe((origin) => {
       this.focused = !!origin;
       this.onPropagateChanges();
     });
   }
-
-  onChange: any = () => {};
-  onTouch: any = () => {};
+  hidden: boolean = false;
+  onChange: any = () => { };
+  onTouch: any = () => { };
   registerOnChange(fn: any): void {
     this.onChange = fn;
   }
@@ -151,7 +154,9 @@ export class MyTelInput
       this.element.nativeElement.querySelector('textarea').focus();
     }
   }
-
+  togglePreview(): void {
+    this.hidden = !this.hidden;
+  }
   propagateChanges(event: Event): void {
     this.onPropagateChanges();
   }
@@ -161,9 +166,9 @@ export class MyTelInput
   }
 
   ngOnInit(): void {
-    //const easyMDE = new EasyMDE({
+    // const easyMDE = new EasyMDE({
     //  element: document.getElementById('textarea_id') ?? undefined,
-    //});
+    // });
   }
 
   ngOnDestroy() {

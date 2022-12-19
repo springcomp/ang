@@ -1,17 +1,22 @@
-
 <h1>Usage in Form</h1>
 
 <form mat-dialog-content [formGroup]="form">
   <app-custom-input formControlName="myFormControl"></app-custom-input>
   <mat-form-field>
+    <input matInput formControlName="two" placeholder="Type address name" required>
+  </mat-form-field>
+  <mat-form-field>
     <my-tel-input formControlName="phone" placeholder="Phone number" required></my-tel-input>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput formControlName="two" placeholder="Type address name" required>
   </mat-form-field>
 </form>
 
 <h2>Variable in app.component</h2>
 
 <p>
-{{form.get('myFormControl')?.value}}
+  {{form.get('myFormControl')?.value}}
 
 <h3>Markdown</h3>
 <p [innerHTML]="renderMarkdown()"></p>

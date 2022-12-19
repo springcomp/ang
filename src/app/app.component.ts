@@ -1,5 +1,6 @@
 import { Component, VERSION } from '@angular/core';
-import {FormControl, FormBuilder, FormsModule, ReactiveFormsModule, Validators, FormGroup} from '@angular/forms';
+import { FormControl, FormBuilder, FormsModule, ReactiveFormsModule, Validators, FormGroup } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {
   FaIconLibrary,
@@ -15,7 +16,7 @@ import { MyTel, MyTelInput } from './tel-input/tel-input.component';
   standalone: true,
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: [ './app.component.scss' ],
+  styleUrls: ['./app.component.scss'],
   providers: [MarkdownService],
   imports: [
     CustomInputComponent,
@@ -23,21 +24,24 @@ import { MyTel, MyTelInput } from './tel-input/tel-input.component';
     ReactiveFormsModule,
     MatFormFieldModule,
     MyTelInput,
+    MatInputModule,
     MarkdownModule,
   ]
 })
-export class AppComponent  {
-  form : FormGroup<FormData>;
+export class AppComponent {
+  form: FormGroup<FormData>;
 
   constructor(
     private formBuilder: FormBuilder,
     private markdownService: MarkdownService,
     library: FaIconLibrary
-    ) {
+  ) {
     library.addIconPacks(fas);
     this.form = this.formBuilder.group<FormData>({
       myFormControl: new FormControl('initial input three', { validators: Validators.required, nonNullable: true }),
       phone: new FormControl(new MyTel('# Overview\nThis is a simple **bold** text.')),
+      one: new FormControl(''),
+      two: new FormControl('')
     });
 
   }
@@ -48,14 +52,16 @@ export class AppComponent  {
   }
 
   public renderMarkdown(): string {
-    console.log(this.markdownService.options);
+    // console.log(this.markdownService.options);
     const text = this.form.get('phone')?.value?.toString() ?? '';
     const html = this.markdownService.parse(text);
     return html;
   }
 }
 
-export class FormData{
+export class FormData {
   myFormControl!: FormControl<string | null>;
   phone!: FormControl<MyTel | null>;
+  one!: FormControl<string | null>;
+  two!: FormControl<string | null>;
 }
