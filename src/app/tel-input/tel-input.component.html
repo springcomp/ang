@@ -37,7 +37,7 @@
         <fa-icon [icon]="['fas', 'copy']"></fa-icon>
       </button></md-ref>
   </markdown-toolbar>
-  <br><!-- TODO: <div>…</div> -->
-  <textarea id="textarea_id" class="area" formControlName="area" size="3" [disabled]="disabled"
+  <br>
+  <textarea id="textarea_id" class="area" formControlName="area" [disabled]="disabled"
     (ngModelChange)="propagateChanges($event)"></textarea>
 </div>

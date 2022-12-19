@@ -22,6 +22,7 @@ import { Subject } from 'rxjs';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import '@github/markdown-toolbar-element';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import * as EasyMDE from 'easymde';
 
 export class MyTel {
   constructor(public area: string) {}
@@ -30,6 +31,8 @@ export class MyTel {
     return this.area;
   }
 }
+
+// https://dev.to/trungk18/build-a-markdown-editor-with-angular-14m0
 
 @Component({
   standalone: true,
@@ -49,11 +52,7 @@ export class MyTel {
     '[id]': 'id',
     '[attr.aria-describedby]': 'describedBy',
   },
-  imports: [
-    FormsModule,
-    ReactiveFormsModule,
-    FontAwesomeModule,
-  ],
+  imports: [FormsModule, ReactiveFormsModule, FontAwesomeModule],
 })
 export class MyTelInput
   implements OnInit, ControlValueAccessor, MatFormFieldControl<MyTel>
@@ -76,12 +75,12 @@ export class MyTelInput
   constructor(
     fb: FormBuilder,
     private fm: FocusMonitor,
-    private elRef: ElementRef
+    private element: ElementRef
   ) {
     this.parts = fb.group({
       area: '',
     });
-    fm.monitor(elRef.nativeElement, true).subscribe((origin) => {
+    fm.monitor(element.nativeElement, true).subscribe((origin) => {
       this.focused = !!origin;
       this.onPropagateChanges();
     });
@@ -98,8 +97,6 @@ export class MyTelInput
   writeValue(obj: MyTel): void {
     this.value = obj;
   }
-
-  ngOnInit(): void {}
 
   stateChanges = new Subject<void>();
 
@@ -151,7 +148,7 @@ export class MyTelInput
   }
   onContainerClick(event: MouseEvent): void {
     if ((event.target as Element).tagName.toLowerCase() != 'textarea') {
-      this.elRef.nativeElement.querySelector('textarea').focus();
+      this.element.nativeElement.querySelector('textarea').focus();
     }
   }
 
@@ -163,8 +160,14 @@ export class MyTelInput
     this.stateChanges.next();
   }
 
+  ngOnInit(): void {
+    //const easyMDE = new EasyMDE({
+    //  element: document.getElementById('textarea_id') ?? undefined,
+    //});
+  }
+
   ngOnDestroy() {
     this.stateChanges.complete();
-    this.fm.stopMonitoring(this.elRef.nativeElement);
+    this.fm.stopMonitoring(this.element.nativeElement);
   }
 }

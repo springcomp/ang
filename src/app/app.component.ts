@@ -37,7 +37,7 @@ export class AppComponent  {
     library.addIconPacks(fas);
     this.form = this.formBuilder.group<FormData>({
       myFormControl: new FormControl('initial input three', { validators: Validators.required, nonNullable: true }),
-      phone: new FormControl(new MyTel('001')),
+      phone: new FormControl(new MyTel('# Overview\nThis is a simple **bold** text.')),
     });
 
   }
@@ -48,6 +48,7 @@ export class AppComponent  {
   }
 
   public renderMarkdown(): string {
+    console.log(this.markdownService.options);
     const text = this.form.get('phone')?.value?.toString() ?? '';
     const html = this.markdownService.parse(text);
     return html;
