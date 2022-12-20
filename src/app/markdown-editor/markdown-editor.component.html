@@ -1,41 +1,32 @@
 <div class="editor" [formGroup]="form">
   <markdown-toolbar for="textarea_id">
-    <md-bold> <button mat-icon-button aria-label="Bold">
-        <fa-icon [icon]="['fas', 'copy']"></fa-icon>
-      </button> </md-bold>
     <md-header><button mat-icon-button aria-label="Header">
-        <fa-icon [icon]="['fas', 'copy']"></fa-icon>
+        <fa-icon [icon]="['fas', 'heading']"></fa-icon>
       </button></md-header>
-    <md-italic><button mat-icon-button aria-label="Bold">
-        <fa-icon [icon]="['fas', 'copy']"></fa-icon>
+    <md-bold> <button mat-icon-button aria-label="Bold">
+        <fa-icon [icon]="['fas', 'bold']"></fa-icon>
+      </button> </md-bold>
+    <md-italic><button mat-icon-button aria-label="Italic">
+        <fa-icon [icon]="['fas', 'italic']"></fa-icon>
       </button></md-italic>
-    <md-quote><button mat-icon-button aria-label="Quote">
-        <fa-icon [icon]="['fas', 'copy']"></fa-icon>
-      </button></md-quote>
-    <md-code><button mat-icon-button aria-label="Code">
-        <fa-icon [icon]="['fas', 'copy']"></fa-icon>
-      </button></md-code>
-    <md-link><button mat-icon-button aria-label="Link">
-        <fa-icon [icon]="['fas', 'copy']"></fa-icon>
-      </button></md-link>
-    <md-image><button mat-icon-button aria-label="Image">
-        <fa-icon [icon]="['fas', 'copy']"></fa-icon>
-      </button></md-image>
+    <md-strikethrough><button mat-icon-button aria-label="Strike Through">
+        <fa-icon [icon]="['fas', 'strikethrough']"></fa-icon>
+      </button></md-strikethrough>
     <md-unordered-list><button mat-icon-button aria-label="Unordered List">
-        <fa-icon [icon]="['fas', 'copy']"></fa-icon>
+        <fa-icon [icon]="['fas', 'list']"></fa-icon>
       </button></md-unordered-list>
     <md-ordered-list><button mat-icon-button aria-label="Ordered List">
-        <fa-icon [icon]="['fas', 'copy']"></fa-icon>
+        <fa-icon [icon]="['fas', 'list-ol']"></fa-icon>
       </button></md-ordered-list>
-    <md-task-list><button mat-icon-button aria-label="Task List">
-        <fa-icon [icon]="['fas', 'copy']"></fa-icon>
-      </button></md-task-list>
-    <md-mention><button mat-icon-button aria-label="Mention">
-        <fa-icon [icon]="['fas', 'copy']"></fa-icon>
-      </button></md-mention>
-    <md-ref><button mat-icon-button aria-label="Ref">
-        <fa-icon [icon]="['fas', 'copy']"></fa-icon>
-      </button></md-ref>
+    <md-quote><button mat-icon-button aria-label="Quote">
+        <fa-icon [icon]="['fas', 'indent']"></fa-icon>
+      </button></md-quote>
+    <md-link><button mat-icon-button aria-label="Link">
+        <fa-icon [icon]="['fas', 'link']"></fa-icon>
+      </button></md-link>
+    <md-image><button mat-icon-button aria-label="Image">
+        <fa-icon [icon]="['fas', 'image']"></fa-icon>
+      </button></md-image>
   </markdown-toolbar>
   <textarea id="textarea_id" class="area" formControlName="markdown" [disabled]="disabled"
     (ngModelChange)="propagateChanges($event)"></textarea>
