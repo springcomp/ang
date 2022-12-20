@@ -37,7 +37,17 @@
         <fa-icon [icon]="['fas', 'copy']"></fa-icon>
       </button></md-ref>
   </markdown-toolbar>
-  <br>
-  <textarea id="textarea_id" class="area" formControlName="area" [disabled]="disabled"
+  <button 
+    mat-icon-button aria-label="Preview"
+    (click)="togglePreview()"
+    >
+    <fa-icon [icon]="['fas', 'pen']"></fa-icon>
+  </button>
+  <textarea id="textarea_id" class="area" formControlName="area" [disabled]="disabled" [hidden]="!hidden"
     (ngModelChange)="propagateChanges($event)"></textarea>
+  <textarea class="preview" formControlName="preview" [hidden]="hidden"></textarea>
 </div>
+<!-- TODO
+^B bold
+rendering dans la preview
+-->
