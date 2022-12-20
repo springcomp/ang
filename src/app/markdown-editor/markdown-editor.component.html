@@ -1,4 +1,4 @@
-<div [formGroup]="parts">
+<div class="editor" [formGroup]="form">
   <markdown-toolbar for="textarea_id">
     <md-bold> <button mat-icon-button aria-label="Bold">
         <fa-icon [icon]="['fas', 'copy']"></fa-icon>
@@ -37,17 +37,6 @@
         <fa-icon [icon]="['fas', 'copy']"></fa-icon>
       </button></md-ref>
   </markdown-toolbar>
-  <button 
-    mat-icon-button aria-label="Preview"
-    (click)="togglePreview()"
-    >
-    <fa-icon [icon]="['fas', 'pen']"></fa-icon>
-  </button>
-  <textarea id="textarea_id" class="area" formControlName="area" [disabled]="disabled" [hidden]="!hidden"
+  <textarea id="textarea_id" class="area" formControlName="markdown" [disabled]="disabled"
     (ngModelChange)="propagateChanges($event)"></textarea>
-  <textarea class="preview" formControlName="preview" [hidden]="hidden"></textarea>
 </div>
-<!-- TODO
-^B bold
-rendering dans la preview
--->

@@ -1,4 +1,4 @@
-div {
+div #form {
   display: flex;
   flex-direction: column;
   padding: 0;
@@ -10,7 +10,6 @@ button {
 }
 
 textarea {
-  border: solid;
   background: none;
   padding: 0;
   outline: none;
